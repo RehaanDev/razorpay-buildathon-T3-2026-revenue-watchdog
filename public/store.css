@@ -1,0 +1,141 @@
+/*
+  The shop is the customer's world, so it is built to look nothing like the ops
+  console. Warm paper, indigo, a serif with real optical sizing. The console is
+  a dark instrument for one person; this is a storefront for everyone. Two
+  audiences, two designs, on purpose.
+
+  Indigo rather than a warm clay accent because the products are natural-dye
+  block-printed cotton, and indigo is the dye.
+*/
+
+:root {
+  --paper: #f7f5f0;
+  --paper-2: #fffdf9;
+  --ink: #1d2433;
+  --indigo: #263a6b;
+  --indigo-soft: #55689a;
+  --madder: #a8433a;
+  --rule: #e2ddd2;
+  --muted: #6f7789;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-bar {
+  background: var(--indigo);
+  color: #e8ecf6;
+  font-size: 13px;
+  padding: 9px 26px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.demo-bar a { color: #fff; font-weight: 500; }
+
+.shop-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 30px 26px 22px; border-bottom: 1px solid var(--rule); gap: 20px; flex-wrap: wrap;
+}
+.brand { display: flex; gap: 14px; align-items: center; }
+.brand-mark {
+  width: 46px; height: 46px; flex: none; border-radius: 3px;
+  background: var(--indigo); color: var(--paper-2);
+  display: grid; place-items: center;
+  font-family: var(--serif); font-size: 15px; letter-spacing: .02em;
+}
+.shop-head h1 { font-family: var(--serif); font-size: 27px; font-weight: 600; margin: 0; letter-spacing: -.01em; }
+.shop-head p { margin: 2px 0 0; color: var(--muted); font-size: 13.5px; }
+.head-note { font-size: 12.5px; color: var(--muted); }
+
+.shop { max-width: 1080px; margin: 0 auto; padding: 30px 26px 70px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 22px; }
+
+.item { background: var(--paper-2); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; }
+/* A woven swatch instead of a stock photo: it is drawn from the product name, so
+   every item gets its own cloth and nothing is a placeholder grey box. */
+.swatch { height: 148px; position: relative; }
+.item-body { padding: 15px 17px 17px; display: flex; flex-direction: column; flex: 1; }
+.item h3 { font-family: var(--serif); font-size: 17px; font-weight: 600; margin: 0; }
+.item p { color: var(--muted); font-size: 13px; margin: 5px 0 0; flex: 1; }
+.item-buy { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+.price { font-family: var(--mono); font-size: 16px; }
+
+.btn {
+  font: inherit; font-size: 14px; padding: 9px 17px; border-radius: 3px; cursor: pointer;
+  background: var(--indigo); color: var(--paper-2); border: 1px solid var(--indigo);
+}
+.btn:hover { background: #1c2c55; }
+.btn:focus-visible { outline: 2px solid var(--madder); outline-offset: 2px; }
+.btn-quiet { background: none; color: var(--indigo); }
+.btn-quiet:hover { background: rgba(38,58,107,.07); }
+
+/* ------------------------------------------------------------- checkout --- */
+.sheet {
+  position: fixed; inset: 0; background: rgba(29,36,51,.55);
+  display: grid; place-items: center; padding: 20px; z-index: 20;
+}
+/* `display: grid` above beats the browser's default [hidden] { display: none },
+   so the overlay has to be hidden explicitly. Without this the checkout sits
+   invisibly on top of the shop and eats every click. */
+.sheet[hidden] { display: none; }
+.sheet-card {
+  background: var(--paper-2); border-radius: 5px; width: min(470px, 100%);
+  padding: 26px 28px; max-height: 90vh; overflow: auto;
+  box-shadow: 0 24px 60px rgba(29,36,51,.3);
+}
+.sheet-card h2 { font-family: var(--serif); font-size: 21px; font-weight: 600; margin: 0 0 4px; }
+.sheet-card .sub { color: var(--muted); font-size: 13.5px; margin: 0 0 18px; }
+
+.line { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.line:last-of-type { border-bottom: 0; }
+.line em { font-style: normal; font-family: var(--mono); }
+
+.pay-label { font-size: 11.5px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin: 20px 0 9px; }
+.methods { display: grid; gap: 7px; }
+.method {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  border: 1px solid var(--rule); background: var(--paper); border-radius: 3px;
+  padding: 11px 13px; cursor: pointer; font-size: 14px; text-align: left; font-family: inherit; color: inherit;
+}
+.method:hover { border-color: var(--indigo-soft); }
+.method.is-on { border-color: var(--indigo); background: #eef1f8; }
+.method small { color: var(--muted); font-size: 12px; display: block; }
+.method-tick { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+.result-mark { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; margin-bottom: 13px; }
+.result-mark.ok { background: #dff0e4; color: #22693f; }
+.result-mark.bad { background: #f6e0de; color: var(--madder); }
+.result-mark.odd { background: #fbeed6; color: #8a5a12; }
+
+.detail-box { background: var(--paper); border: 1px solid var(--rule); border-radius: 3px; padding: 13px 15px; font-size: 13px; margin-top: 15px; }
+.detail-box div { display: flex; justify-content: space-between; padding: 3px 0; }
+.detail-box span { color: var(--muted); }
+.detail-box em { font-style: normal; font-family: var(--mono); }
+
+.next-note { font-size: 13px; color: var(--muted); margin-top: 16px; padding-left: 12px; border-left: 2px solid var(--indigo); line-height: 1.6; }
+
+.sheet-actions { display: flex; gap: 9px; margin-top: 20px; flex-wrap: wrap; }
+
+.shop-foot {
+  border-top: 1px solid var(--rule); padding: 20px 26px;
+  display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; gap: 10px;
+}
+
+@media (max-width: 620px) {
+  .shop-head { padding: 22px 18px 18px; }
+  .shop { padding: 22px 18px 50px; }
+}

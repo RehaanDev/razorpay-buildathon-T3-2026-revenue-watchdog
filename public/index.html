@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revenue Watchdog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<aside class="rail">
+  <div class="rail-mark">
+    <span class="rail-glyph"></span>
+    <div>
+      <strong>Revenue Watchdog</strong>
+      <small id="railMerchant">Leaf &amp; Loom</small>
+    </div>
+  </div>
+
+  <nav class="rail-nav" id="nav">
+    <button class="nav-item is-active" data-view="map"><span>Leak map</span></button>
+    <button class="nav-item" data-view="queue"><span>Recovery queue</span><em id="queueCount">0</em></button>
+    <button class="nav-item" data-view="safety"><span>Guardrails</span></button>
+    <button class="nav-item" data-view="agent"><span>Agent</span></button>
+    <button class="nav-item" data-view="congestion"><span>Congestion</span></button>
+    <button class="nav-item" data-view="proof"><span>Proof</span></button>
+    <button class="nav-item" data-view="audit"><span>Audit trail</span></button>
+    <button class="nav-item" data-view="control"><span>Control room</span></button>
+  </nav>
+
+  <div class="rail-foot">
+    <div class="rail-stat"><span>Gateway</span><em id="gatewayMode">mock</em></div>
+    <div class="rail-stat"><span>Events watched</span><em id="eventCount">—</em></div>
+    <div class="rail-stat"><span>Cycles run</span><em id="cycleCount">—</em></div>
+    <button class="btn btn-ghost" id="runCycle">Run a cycle</button>
+    <button class="btn btn-ghost" id="reseed">Reseed the day</button>
+    <a class="btn btn-ghost" href="/store.html" style="text-align:center;text-decoration:none">Open the shop</a>
+  </div>
+</aside>
+
+<main class="stage">
+  <header class="stage-head">
+    <div>
+      <h1 id="stageTitle">Leak map</h1>
+      <p id="stageSub">What this account is losing right now, and what has been done about it.</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <button id="inboxBtn" title="Shopper Side Email INBOX!" style="display:flex;align-items:center;gap:8px;background:var(--card,#a56d6d);border:1px solid var(--line,#e5e7eb);border-radius:10px;padding:7px 12px;cursor:pointer;position:relative">
+        <img src="https://t3.ftcdn.net/jpg/03/86/50/54/360_F_386505487_omkU0kGEhMa3gQ83rVksoXX41AFFfi0K.jpg" alt="" width="22" height="22" style="border-radius:4px;object-fit:cover">
+        <span style="font-weight:600;font-size:.85rem;color:var(--ink)">Shopper Side Email INBOX!</span>
+        <em id="inboxCount" style="font-style:normal;background:#2563eb;color:#fff;border-radius:999px;font-size:.7rem;padding:1px 7px;min-width:18px;text-align:center">0</em>
+      </button>
+      <div class="clock"><span>Watching as of</span><em id="clock">—</em></div>
+    </div>
+  </header>
+
+  <div id="view"></div>
+</main>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

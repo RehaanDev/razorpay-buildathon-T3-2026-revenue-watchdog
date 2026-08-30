@@ -1,0 +1,20 @@
+{
+  "name": "revenue-watchdog",
+  "version": "3.0.0",
+  "description": "Live revenue-leak detection, agentic diagnosis and policy-gated recovery on real Razorpay test-mode traffic.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "test": "node --env-file-if-exists=.env scripts/selftest.js",
+    "evals": "node --env-file-if-exists=.env scripts/evals.js",
+    "accumulate": "node --env-file-if-exists=.env scripts/accumulate.js 30",
+    "seed": "node --env-file-if-exists=.env scripts/reseed.js",
+    "live-check": "node --env-file-if-exists=.env scripts/live-check.js",
+    "gemini-check": "node --env-file-if-exists=.env scripts/gemini-check.js",
+    "secrets": "node scripts/secret-scan.js"
+  },
+  "engines": { "node": ">=20.6.0" },
+  "dependencies": {},
+  "license": "MIT"
+}
