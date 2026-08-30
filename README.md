@@ -29,11 +29,11 @@ happened to run their cron job at `:00`, but the smallest merchants are not star
 of a window they are being throttled into. What that floor costs is measured and
 published rather than assumed; see [Who gets the scarce slots](#who-gets-the-scarce-slots).
 
-![Congestion panel — offered load against estimated issuer capacity](docs/congestion-1.png)
+![Congestion panel — offered load against estimated issuer capacity](docs/img/congestion-1.png)
 
 *Sidebar → Congestion. Total retry traffic to a degraded issuer, network-wide.*
 
-![Coordinated schedule — the same attempts spread across slots](docs/congestion-2.png)
+![Coordinated schedule — the same attempts spread across slots](docs/img/congestion-2.png)
 
 *The same queue, metered. Deferred attempts are visible, not silently dropped.*
 
@@ -57,11 +57,11 @@ Reproduce exactly:
 npm run accumulate
 ```
 
-![Proof panel — control and treatment arms side by side](docs/proof-1.png)
+![Proof panel — control and treatment arms side by side](docs/img/proof-1.png)
 
 *Sidebar → Proof. The holdout split, arm sizes, and the significance gate.*
 
-![npm run accumulate printing the pooled 30-day result](docs/proof-2.png)
+![npm run accumulate printing the pooled 30-day result](docs/img/proof-2.png)
 
 *The same number the panel shows, produced from the command line.*
 
@@ -99,11 +99,11 @@ There are zero npm dependencies. `package.json` has an empty `dependencies` bloc
 that is not an oversight — no install step means nothing to break between your machine
 and mine. Node 20.6+ only.
 
-![Leak map — where the money went in the last 24 hours](docs/leak-map-1.png)
+![Leak map — where the money went in the last 24 hours](docs/img/leak-map-1.png)
 
 *The landing view on boot. At-risk revenue bucketed by cause.*
 
-![Leak map with a bucket expanded to its underlying payments](docs/leak-map-2.png)
+![Leak map with a bucket expanded to its underlying payments](docs/img/leak-map-2.png)
 
 *Recovered, waiting on a decision, stopped by a guardrail, tried and did not come back.*
 
@@ -137,11 +137,11 @@ ok    the only write-shaped tool is a proposal
 ok    nothing executed without a rule authorising it
 ```
 
-![Recovery queue with AUTO, REVIEW and BLOCK verdicts](docs/recovery-queue-1.png)
+![Recovery queue with AUTO, REVIEW and BLOCK verdicts](docs/img/recovery-queue-1.png)
 
 *Sidebar → Recovery queue. Escalation and stopping rules in one frame.*
 
-![A single candidate expanded, showing why the policy engine ruled the way it did](docs/recovery-queue-2.png)
+![A single candidate expanded, showing why the policy engine ruled the way it did](docs/img/recovery-queue-2.png)
 
 *BLOCK is a decision with a reason attached, not an error.*
 
@@ -172,11 +172,11 @@ does the damage.
 Pattern detection is the weakest of the three layers and is deliberately ranked last.
 It earns its place by making attempts visible to the merchant, not by stopping them.
 
-![Guardrails panel showing quarantined injection attempts](docs/guardrails-1.png)
+![Guardrails panel showing quarantined injection attempts](docs/img/guardrails-1.png)
 
 *Sidebar → Guardrails. Capture after `npm run evals` so the log has real entries.*
 
-![An injected payment description replaced rather than passed through](docs/guardrails-2.png)
+![An injected payment description replaced rather than passed through](docs/img/guardrails-2.png)
 
 *Replacement, not a warning — a warning still puts the payload in context.*
 
@@ -217,11 +217,11 @@ grounded on all runs, 3.7 tool calls average.
 
 The two failures are real and are described under [Known limitations](#known-limitations).
 
-![Investigation agent mid-run — the tool-call trace](docs/agent-1.png)
+![Investigation agent mid-run — the tool-call trace](docs/img/agent-1.png)
 
 *Sidebar → Agent. Eight read-only tools, and the order it chose to call them in.*
 
-![The conclusion, with every claim carrying a factId](docs/agent-2.png)
+![The conclusion, with every claim carrying a factId](docs/img/agent-2.png)
 
 *A number that cannot be traced to a tool result is rejected before it reaches you.*
 
@@ -265,23 +265,23 @@ would have cleared for free. With it, the link wins exactly where it should —
 dead instruments and revoked mandates, where retrying the same instrument has no
 path to success at all.
 
-![Shopper Side Email INBOX — the simulated merchant section](docs/inbox-simulated.png)
+![Shopper Side Email INBOX — the simulated merchant section](docs/img/inbox-simulated.png)
 
 *Mail generated for seeded candidates. Approve something in the Recovery queue to
 fill this; soft declines are retried silently and never generate mail, which is
 the point.*
 
-![A simulated recovery mail opened, with its Paid and Did not pay controls](docs/inbox-simulated-open.png)
+![A simulated recovery mail opened, with its Paid and Did not pay controls](docs/img/inbox-simulated-open.png)
 
 *Resolving it here is what settles the action in the UI. In the headless A/B a
 sampler does the same job, and never for a real payment.*
 
-![Shopper Side Email INBOX — the real Razorpay section](docs/inbox-real.png)
+![Shopper Side Email INBOX — the real Razorpay section](docs/img/inbox-real.png)
 
 *Mail generated for genuine test-mode payments, listed separately from the
 simulated ones. Real and seeded traffic are never mixed in the same count.*
 
-![A real recovery mail opened, carrying a genuine rzp.io payment link](docs/inbox-real-open.png)
+![A real recovery mail opened, carrying a genuine rzp.io payment link](docs/img/inbox-real-open.png)
 
 *This link is live. Paying it produces a `payment_link.paid` webhook, which is
 what closes the loop back to the deciding action.*
@@ -317,11 +317,11 @@ payments carry a `source` marker, are never given fabricated outcomes, and stay
 and however many payments you make by hand — but it is the only part of this
 system where the number is not downstream of an assumption I wrote.
 
-![Control room — scenario planting and policy thresholds](docs/control-room-1.png)
+![Control room — scenario planting and policy thresholds](docs/img/control-room-1.png)
 
 *Sidebar → Control room. Plant any of the twelve scenarios and watch the pipeline respond to it live.*
 
-![A policy change simulated before it is applied](docs/control-room-2.png)
+![A policy change simulated before it is applied](docs/img/control-room-2.png)
 
 *`simulate_policy_change` shows what a threshold move would have done to past decisions, before it moves anything.*
 
@@ -367,7 +367,7 @@ still find a capacity when one is really there — it recovers a planted C of 60
 inside its interval, and declines a time-driven outage carrying the same
 success-rate drop.
 
-![Capacity panel declining to estimate, with its reason stated](docs/capacity.png)
+![Capacity panel declining to estimate, with its reason stated](docs/img/capacity.png)
 
 *"What is assumed here." The estimator refusing is the feature, not a gap.*
 
@@ -508,7 +508,7 @@ Put the resulting URL in `.env` as `PUBLIC_BASE_URL`, and register
 `https://<tunnel>/api/razorpay/webhook` in the dashboard for `payment.failed`,
 `payment.captured`, and `payment_link.paid`.
 
-![Webhook log showing a duplicate ignored and a late event logged but not applied](docs/webhook-log.png)
+![Webhook log showing a duplicate ignored and a late event logged but not applied](docs/img/webhook-log.png)
 
 *Replay safety is visible, not just asserted.*
 
@@ -553,31 +553,31 @@ otherwise.
 It is the smallest part of the system and the only part where the number is not
 downstream of an assumption I wrote. Seven frames, one rupee:
 
-![Leaf & Loom storefront with an item in the cart](docs/live-storefront.png)
+![Leaf & Loom storefront with an item in the cart](docs/img/live-storefront.png)
 
 **1. The storefront.** A real product, a real cart, a real order about to be created through `POST /v1/orders`.
 
-![Razorpay Checkout modal open with a test card entered](docs/live-checkout.png)
+![Razorpay Checkout modal open with a test card entered](docs/img/live-checkout.png)
 
 **2. Razorpay Checkout.** The actual modal from `checkout.razorpay.com`, not a mock. Use UPI ID `failure@razorpay` to force the failure this system exists to recover.
 
-![The payment arriving tagged source: razorpay](docs/live-payment.png)
+![The payment arriving tagged source: razorpay](docs/img/live-payment.png)
 
 **3. Ingested and tagged.** It lands under Real payments with `source: razorpay`, held apart from the 13,629 seeded rows. Nothing in the simulator is allowed to touch it.
 
-![The failed payment appearing as a recovery candidate](docs/live-candidate.png)
+![The failed payment appearing as a recovery candidate](docs/img/live-candidate.png)
 
 **4. It becomes a candidate.** Decline class, model probability, and policy verdict — computed exactly as for every seeded candidate.
 
-![The generated Razorpay payment link with its rzp.io short URL](docs/live-link.png)
+![The generated Razorpay payment link with its rzp.io short URL](docs/img/live-link.png)
 
 **5. A real link.** `POST /v1/payment_links` returns a genuine `rzp.io` short URL, sent with an idempotency key so a retried request cannot double-charge.
 
-![payment_link.paid arriving in the webhook log, HMAC verified](docs/live-webhook.png)
+![payment_link.paid arriving in the webhook log, HMAC verified](docs/img/live-webhook.png)
 
 **6. The truth arrives.** HMAC verified before parsing, deduplicated on event id, ordered by state rank. This is the moment the outcome stops being a guess.
 
-![Recovery attributed back to the deciding action in the ledger](docs/live-attributed.png)
+![Recovery attributed back to the deciding action in the ledger](docs/img/live-attributed.png)
 
 **7. Attributed.** Not "revenue went up" — *this* decision recovered *this* payment.
 
@@ -604,11 +604,11 @@ being a guess.
 **7. Attributed.** The recovered rupee is traced back to the specific decision that
 caused it. Not "revenue went up" — *this* decision recovered *this* payment.
 
-![Audit trail — decision, gate, execution, attribution](docs/audit-1.png)
+![Audit trail — decision, gate, execution, attribution](docs/img/audit-1.png)
 
 *Sidebar → Audit trail. One full chain, from the decision made to the rupee that came back.*
 
-![The ledger entry for a blocked action](docs/audit-2.png)
+![The ledger entry for a blocked action](docs/img/audit-2.png)
 
 *Blocks and reviews leave the same trace as executions. A decision not to act is still a decision.*
 

@@ -19,26 +19,26 @@ or `GEMINI_API_KEY`. `npm run secrets` scans the repo, not your images.
 
 | File | Section | What must be visible |
 |---|---|---|
-| `leak-map-1.png` | Leak map | The landing view on boot, at-risk revenue bucketed by cause. |
-| `leak-map-2.png` | Leak map | A bucket expanded to the payments underneath it. |
-| `recovery-queue-1.png` | Recovery queue | AUTO, REVIEW and BLOCK badges together in one frame. |
-| `recovery-queue-2.png` | Recovery queue | One candidate expanded, showing the policy engine's reasoning. |
-| `guardrails-1.png` | Guardrails | A quarantined injection attempt with its verdict. |
-| `guardrails-2.png` | Guardrails | An injected description replaced rather than passed through. |
-| `agent-1.png` | Agent | The tool-call trace: which of the eight tools, in what order. |
-| `agent-2.png` | Agent | The conclusion, with claims carrying their factIds. |
-| `congestion-1.png` | Congestion | Offered load against estimated issuer capacity. |
-| `congestion-2.png` | Congestion | The coordinated schedule, with deferrals visible. |
-| `proof-1.png` | Proof | Control and treatment arms, holdout split, significance gate. |
-| `proof-2.png` | Proof | Terminal output of `npm run accumulate` with the pooled block. |
-| `audit-1.png` | Audit trail | One full chain: decision, gate, execution, attribution. |
-| `audit-2.png` | Audit trail | A ledger entry for a blocked action. |
-| `control-room-1.png` | Control room | Scenario planting and the policy thresholds. |
-| `control-room-2.png` | Control room | A policy change simulated before being applied. |
-| `inbox-1.png` | Shopper Side Email INBOX | A generated recovery link sitting in the inbox. |
-| `inbox-2.png` | Shopper Side Email INBOX | The mail opened, showing what the shopper receives. |
-| `capacity.png` | Congestion, "What is assumed here" | The estimator declining, with its stated reason. |
-| `webhook-log.png` | Webhooks | A duplicate ignored and a late event logged but not applied. |
+| `img/leak-map-1.png` | Leak map | The landing view on boot, at-risk revenue bucketed by cause. |
+| `img/leak-map-2.png` | Leak map | A bucket expanded to the payments underneath it. |
+| `img/recovery-queue-1.png` | Recovery queue | AUTO, REVIEW and BLOCK badges together in one frame. |
+| `img/recovery-queue-2.png` | Recovery queue | One candidate expanded, showing the policy engine's reasoning. |
+| `img/guardrails-1.png` | Guardrails | A quarantined injection attempt with its verdict. |
+| `img/guardrails-2.png` | Guardrails | An injected description replaced rather than passed through. |
+| `img/agent-1.png` | Agent | The tool-call trace: which of the eight tools, in what order. |
+| `img/agent-2.png` | Agent | The conclusion, with claims carrying their factIds. |
+| `img/congestion-1.png` | Congestion | Offered load against estimated issuer capacity. |
+| `img/congestion-2.png` | Congestion | The coordinated schedule, with deferrals visible. |
+| `img/proof-1.png` | Proof | Control and treatment arms, holdout split, significance gate. |
+| `img/proof-2.png` | Proof | Terminal output of `npm run accumulate` with the pooled block. |
+| `img/audit-1.png` | Audit trail | One full chain: decision, gate, execution, attribution. |
+| `img/audit-2.png` | Audit trail | A ledger entry for a blocked action. |
+| `img/control-room-1.png` | Control room | Scenario planting and the policy thresholds. |
+| `img/control-room-2.png` | Control room | A policy change simulated before being applied. |
+| `img/inbox-1.png` | Shopper Side Email INBOX | A generated recovery link sitting in the inbox. |
+| `img/inbox-2.png` | Shopper Side Email INBOX | The mail opened, showing what the shopper receives. |
+| `img/capacity.png` | Congestion, "What is assumed here" | The estimator declining, with its stated reason. |
+| `img/webhook-log.png` | Webhooks | A duplicate ignored and a late event logged but not applied. |
 
 **`inbox-1` and `inbox-2` need a setup step.** AUTO will not fill the inbox:
 soft declines are retried silently and never generate mail. Approve a REVIEW
@@ -57,21 +57,22 @@ frames will show.
 
 | File | What must be visible |
 |---|---|
-| `live-storefront.png` | Leaf & Loom storefront, item in cart, before checkout. |
-| `live-checkout.png` | The real Razorpay Checkout modal. Enter UPI `failure@razorpay`. |
-| `live-payment.png` | The payment under Real payments, tagged `source: razorpay`. |
-| `live-candidate.png` | The same payment as a candidate, with decline class and verdict. |
-| `live-link.png` | The generated link showing its `rzp.io` short URL. |
-| `live-webhook.png` | `payment_link.paid` in the webhook log, HMAC verified. |
-| `live-attributed.png` | The recovery attributed back to the deciding action. |
+| `img/live-storefront.png` | Leaf & Loom storefront, item in cart, before checkout. |
+| `img/live-checkout.png` | The real Razorpay Checkout modal. Enter UPI `failure@razorpay`. |
+| `img/live-payment.png` | The payment under Real payments, tagged `source: razorpay`. |
+| `img/live-candidate.png` | The same payment as a candidate, with decline class and verdict. |
+| `img/live-link.png` | The generated link showing its `rzp.io` short URL. |
+| `img/live-webhook.png` | `payment_link.paid` in the webhook log, HMAC verified. |
+| `img/live-attributed.png` | The recovery attributed back to the deciding action. |
 
 ---
 
 ## If you run out of time
 
 Capture these six and comment the rest of the tags out:
-`leak-map-1`, `congestion-1`, `agent-1`, `proof-2`, `live-checkout`,
-`live-webhook`.
+
+`img/leak-map-1.png`, `img/congestion-1.png`, `img/agent-1.png`,
+`img/proof-2.png`, `img/live-checkout.png`, `img/live-webhook.png`.
 
 Those six carry the whole argument: the problem, the coordination fix, the agent,
 the measured result, and proof the Razorpay integration is real on both the
