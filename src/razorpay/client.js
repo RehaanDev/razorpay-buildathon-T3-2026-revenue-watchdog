@@ -178,12 +178,34 @@ export const razorpay = {
     return mockLedger.get(linkId) || null;
   },
 
-  async fetchRecentPayments({ count = 20 } = {}) {
+  async fetchRecentPayments({ count = 100, maxPages = 20 } = {}) {
     if (config.razorpayMode === 'live') {
-      return callLive('GET', `/payments?count=${count}`, null, id('idem'));
+      // Razorpay caps `count` at 100 per page and returns the most recent
+      // payments first. A single page therefore misses everything older than
+      // the last 100 payments, which is why failures made over several days in
+      // test mode never all showed up. Page backwards with `skip` until Razorpay
+      // returns a short page (fewer than `count`), meaning we've reached the end,
+      // or until we hit maxPages as a safety stop. Everything is merged into one
+      // collection with the same shape the caller already expects.
+      const perPage = Math.min(count, 100);
+      const all = [];
+      for (let page = 0; page < maxPages; page += 1) {
+        const skip = page * perPage;
+        const res = await callLive(
+          'GET',
+          `/payments?count=${perPage}&skip=${skip}`,
+          null,
+          id('idem')
+        );
+        const items = res.items || [];
+        all.push(...items);
+        if (items.length < perPage) break; // last page reached
+      }
+      return { entity: 'collection', count: all.length, items: all };
     }
-    // Mock: return recent real payments already in the store
-    const real = store.realPayments().slice(-count).map((p) => ({
+    // Mock: return real payments already in the store (all of them, most recent
+    // last), matching the live path which now returns full history too.
+    const real = store.realPayments().slice(-count * maxPages).map((p) => ({
       id: p.id, amount: p.amount, currency: p.currency, status: p.status,
       method: p.method, vpa: p.issuer, error_code: p.errorCode,
       created_at: Math.floor(new Date(p.createdAt).getTime() / 1000),

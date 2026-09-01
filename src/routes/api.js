@@ -262,7 +262,9 @@ export async function route(method, pathname, query, body, raw, headers) {
     // set up — click "Sync from Razorpay" in the UI and failed payments appear.
     try {
       const { ingestRealPayment } = await import('../razorpay/ingest.js');
-      const list = await razorpay.fetchRecentPayments({ count: 30 });
+      // Pull the full history (paged 100 at a time inside the client), not just
+      // the most recent 30 — otherwise older failures never get ingested.
+      const list = await razorpay.fetchRecentPayments({ count: 100 });
       const items = list.items || [];
       let ingested = 0;
       let failed = 0;

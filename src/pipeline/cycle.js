@@ -57,7 +57,7 @@ export async function runCycle({ merchantId = config.focusMerchantId, autoExecut
       detection: realFailures,
       network: null,
       diagnosis: {
-        summary: `${realFailures.count} payment${realFailures.count > 1 ? 's' : ''} (₹${Math.round(realFailures.amountAtRisk / 100).toLocaleString('en-IN')}) failed on your live Razorpay account in the last 72 hours. These are confirmed failures reported over signed webhooks — not statistical estimates.`,
+        summary: `${realFailures.count} payment${realFailures.count > 1 ? 's' : ''} (₹${Math.round(realFailures.amountAtRisk / 100).toLocaleString('en-IN')}) failed on your live Razorpay account. These are confirmed failures reported over signed webhooks — not statistical estimates.`,
         verdict: 'real_failures',
         declineBreakdown: realFailures.byDecline,
         note: 'No significance test was applied. Each row here is an observed failure.',
@@ -218,6 +218,15 @@ export async function runCycle({ merchantId = config.focusMerchantId, autoExecut
     for (const c of store.candidates) {
       if (c.policy.verdict !== 'AUTO') continue;
       const rec = c.arm === 'control' ? await executeControl(c) : await execute(c);
+      if (!rec) {
+        store.record({
+          type: 'execution_skipped',
+          candidateId: c.id,
+          paymentId: c.paymentId,
+          note: 'execute() returned no record — likely a stale idempotency replay with no matching action after a data reset. Skipped verification for this cycle.',
+        });
+        continue;
+      }
       await verify(rec);
     }
   }
@@ -454,11 +463,15 @@ export function summarise(merchantId = config.focusMerchantId) {
   );
   const realMode = realForMerchant.length > 0;
 
+  // Processed revenue for the river. Split by source (real vs synthetic) via
+  // realMode, but NOT time-boxed: the previous `clock - 24h` cutoff meant any
+  // captured payment older than a day silently vanished from "processed", so a
+  // test-mode account whose payments span several days showed only the last
+  // day's captures. Every captured payment in the active stream now counts.
   const dayPayments = store.payments.filter(
     (p) =>
       p.merchantId === merchantId &&
-      (realMode ? p.source === 'razorpay' : p.source !== 'razorpay') &&
-      new Date(p.createdAt).getTime() >= clock - 24 * 36e5
+      (realMode ? p.source === 'razorpay' : p.source !== 'razorpay')
   );
   const processed = sum(dayPayments.filter((p) => p.status === 'captured'), (p) => p.amount);
 
@@ -555,13 +568,13 @@ export function summarise(merchantId = config.focusMerchantId) {
     detectionScore: scoreDetection(),
     model: store.model
       ? {
-          brier: store.model.brier,
-          skillScore: store.model.skillScore,
-          trainedOn: store.model.trainedOn,
-          testedOn: store.model.testedOn,
-          topFeatures: store.model.features.slice(0, 6),
-          calibration: store.model.calibration,
-        }
+        brier: store.model.brier,
+        skillScore: store.model.skillScore,
+        trainedOn: store.model.trainedOn,
+        testedOn: store.model.testedOn,
+        topFeatures: store.model.features.slice(0, 6),
+        calibration: store.model.calibration,
+      }
       : null,
   };
 }
@@ -600,7 +613,7 @@ export function scoreDetection() {
       matched = found.find((f) => f.detection?.issuer === t.issuer);
       const verdictOk = matched
         ? (t.expectVerdict === 'upstream' && matched.network?.verdict === 'upstream') ||
-          (t.expectVerdict === 'merchant_local' && matched.network?.verdict === 'merchant_local')
+        (t.expectVerdict === 'merchant_local' && matched.network?.verdict === 'merchant_local')
         : false;
       results.push({
         groundTruth: t.id,

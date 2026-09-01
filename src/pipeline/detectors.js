@@ -270,14 +270,22 @@ export function baselineFor(merchant, issuer) {
  * candidate immediately, and the finding carries `statistical: false` so no
  * surface can dress it up as a detected trend.
  */
-export function detectRealFailures(merchantId, { hours = 72 } = {}) {
-  const cutoff = nowMs() - hours * HOUR;
+export function detectRealFailures(merchantId, { hours = null } = {}) {
+  // A real failed payment is an observed fact, not a trend, so unlike the three
+  // statistical detectors above it does NOT need a recent sample and must not be
+  // time-boxed. The previous 72h window silently dropped every failure older
+  // than three days, which is why a test-mode account with failures made over
+  // many days only ever surfaced a handful of them. By default there is now no
+  // window at all: every real failed payment for the merchant becomes a
+  // candidate. An optional `hours` is still accepted for callers that genuinely
+  // want a lookback, but nothing passes one.
+  const cutoff = hours != null ? nowMs() - hours * HOUR : null;
   const rows = store.payments.filter(
     (p) =>
       p.merchantId === merchantId &&
       p.source === 'razorpay' &&
       p.status === 'failed' &&
-      new Date(p.createdAt).getTime() >= cutoff
+      (cutoff == null || new Date(p.createdAt).getTime() >= cutoff)
   );
 
   if (!rows.length) return null;
